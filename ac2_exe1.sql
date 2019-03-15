@@ -4,36 +4,40 @@ USE ac2_esfiharia
 DROP DATABASE ac2_esfiharia
 
 CREATE TABLE Cliente(
-Id INT PRIMARY KEY,
+Id INT,
 Nome VARCHAR(200) NOT NULL,
-Endereco VARCHAR(200)
+Endereco VARCHAR(200),
+CONSTRAINT PK_Cliente PRIMARY KEY (Id)
 )
 
 CREATE TABLE Telefone(
-Id_Cliente INT NOT NULL, 
+Id_Cliente INT, 
 Numero VARCHAR(10) NOT NULL,
+CONSTRAINT PK_IdCliente PRIMARY KEY (Id_Cliente, Numero),
 CONSTRAINT FK_ClienteTelefone FOREIGN KEY (Id_Cliente) REFERENCES Cliente(Id)
 )
 
 CREATE TABLE Pedido(
-Numero INT PRIMARY KEY,
+Numero INT,
 DataHora DATETIME NOT NULL,
 Id_Cliente INT NOT NULL,
-CONSTRAINT FK_ClientePedido FOREIGN KEY (Id_Cliente) REFERENCES Cliente(Id)
+CONSTRAINT PK_Pedido PRIMARY KEY (Numero),
+CONSTRAINT FK_ClientePedido FOREIGN KEY (Id_Cliente) REFERENCES Cliente(Id),
 )
 
 CREATE TABLE Produto(
-Id INT PRIMARY KEY,
-Nome VARCHAR(150)
+Id INT,
+Nome VARCHAR(150),
+CONSTRAINT PK_Produto PRIMARY KEY (Id)
 )
 
 CREATE TABLE ItemPedido(
-NumeroPedido INT NOT NULL,
+NumeroPedido INT,
 IdProduto INT NOT NULL,
 Qtde INT NOT NULL,
+CONSTRAINT PK_ItemPedido PRIMARY KEY (NumeroPedido, IdProduto),
 CONSTRAINT FK_NumeroPedido FOREIGN KEY (NumeroPedido) REFERENCES Pedido(Numero),
-CONSTRAINT FK_IdProduto FOREIGN KEY (IdProduto) REFERENCES Produto(Id),
-CONSTRAINT PK_ItemPedido PRIMARY KEY (NumeroPedido, IdProduto) 
+CONSTRAINT FK_IdProduto FOREIGN KEY (IdProduto) REFERENCES Produto(Id)
 )
 
 -- SELECTS DE TESTE 

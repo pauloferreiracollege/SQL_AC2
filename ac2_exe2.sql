@@ -1,45 +1,33 @@
 CREATE DATABASE ac2_biblioteca
+DROP DATABASE ac2_biblioteca
 
 USE ac2_biblioteca
 
 CREATE TABLE Livro(
-Nome VARCHAR(200) NOT NULL,
+Nome VARCHAR(200),
 Copia INT,
 StatusLivro VARCHAR(10) NOT NULL,
 CONSTRAINT PK_Livro PRIMARY KEY (Nome, Copia)
 )
 
 CREATE TABLE Cliente(
-Id INT PRIMARY KEY,
+Id INT,
 Nome VARCHAR(200) NOT NULL,
-Telefone INT NOT NULL
+Telefone INT NOT NULL,
+CONSTRAINT PK_Cliente PRIMARY KEY (Id)
 )
 
-DROP TABLE 
 CREATE TABLE Emprestimo(
-Id INT IDENTITY PRIMARY KEY,
+Id INT IDENTITY,
 NomeLivro VARCHAR(200) NOT NULL,
 CopiaLivro INT NOT NULL,
 IdCliente INT NOT NULL,
-DataEmprestimo VARCHAR(20) NOT NULL,
-DataDevolucaoProposta VARCHAR(20) NOT NULL,
-DataDevolucaoEfetiva VARCHAR(20) NOT NULL,
-Multa DECIMAL
+DataEmprestimo DATETIME NOT NULL,
+DataDevolucaoProposta DATETIME NOT NULL,
+DataDevolucaoEfetiva DATETIME NOT NULL,
+Multa DECIMAL(6,2),
+CONSTRAINT PK_IdEmprestimo PRIMARY KEY (Id),
+CONSTRAINT FK_IdCliente FOREIGN KEY (IdCliente) REFERENCES Cliente(Id),
+CONSTRAINT FK_LivroCopia FOREIGN KEY (NomeLivro, CopiaLivro) REFERENCES Livro(Nome, Copia)
 )
 
-ALTER TABLE Emprestimo
-ADD CONSTRAINT FK_Livro
-	FOREIGN KEY (NomeLivro)
-	REFERENCES Livro(Nome)
-
-ALTER TABLE Emprestimo
-ADD CONSTRAINT FK_Copia
-	FOREIGN KEY (NomeLivro)
-	REFERENCES Livro(Nome)
-
-ALTER TABLE Emprestimo
-ADD CONSTRAINT FK_Id_Cliente
-	FOREIGN KEY (IdCliente)
-	REFERENCES Cliente(Id)
-
-SELECT * FROM Livro
